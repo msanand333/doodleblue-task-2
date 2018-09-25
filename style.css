@@ -1,0 +1,28 @@
+    .phone {
+        /*border: 2px solid gray;*/
+        /*text-align: center;*/
+        margin: auto;
+    }
+    
+    header {
+        height: 5rem;
+        background-color: lightgray;
+    }
+    
+    .control-icons {
+        height: 4rem;
+    }
+    
+    .control-icon {
+        height: 3rem;
+        padding-top: 2rem;
+    }
+    
+    .content {
+        position: relative;
+    }
+    
+    .my-contacts {
+        margin-bottom: 1rem;
+        /* padding-bottom: 1rem;*/
+    }
