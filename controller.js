@@ -139,35 +139,37 @@ function view_Message_Threads() {
     let messageThreads = "";
     contactDetails.forEach(contact => {
         if (contact.message.length != 0) {
-            messageThreads += `<li>${contact.name}<span>&emsp;&emsp;<button type="button" class="btn btn-primary thread" data-userId="${contact.userId}">View</button></span></li></br>`;
+            messageThreads += `<li>${contact.name}<span>&emsp;&emsp;<button data-userId="${contact.userId}" type="button" class="btn btn-primary thread" >View</button></span></li></br>`;
         }
     });
     $("#threads").html(messageThreads);
+    const selectedThread = document.querySelectorAll(".thread");
+    for (let i = 0; i < selectedThread.length; i++) {
+
+        selectedThread[i].addEventListener('click', view_individual_thread);
+
+    }
 }
 
 
 //*************************FUNCTION FOR VIEWING INDIVIDUAL MESSAGE THREAD******************************* */
-const selectedThread = document.querySelectorAll(".thread");
-for (let i = 0; i < selectedThread.length; i++) {
 
-    selectedThread[i].addEventListener('click', view_individual_thread);
-
-}
-let chicken = true;
+//let chicken = true;
 
 function view_individual_thread(evt) {
     let yourMessages = "";
     console.log("level1 triggered");
-    if (chicken == false) {
-        contactDetails.forEach(contact => {
-            if (contact.userId == evt.target.getAttribute('data-userId')) {
-                contact.message.forEach(message => {
-                    yourMessages += `<li>${message}</li></br>`;
-                });
+    console.log(evt.target.getAttribute('data-userId'));
 
-            }
-        });
-    }
+    contactDetails.forEach(contact => {
+        if (contact.userId == evt.target.getAttribute('data-userId')) {
+            contact.message.forEach(message => {
+                yourMessages += `<li>${message}</li></br>`;
+            });
+
+        }
+    });
+
     $("#i-thread").html(yourMessages);
 
     //selectedThread.dataset.userId
