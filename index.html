@@ -29,14 +29,18 @@
             </div>
 
         </header>
-
+        <!--------------------------------VIEW------------------------------------------------>
         <div class="container-fluid content">
             <!--------------------------------CONTACTS------------------------------------------------>
             <div class="contact-list">
-                <h1>Your Contacts</h1>
+                <div class="d-flex justify-content-between heading">
+                    <h1>Your Contacts</h1>
+                    <div> <button type="button" class="btn btn-primary btn-sm plus" data-toggle="modal" data-target="#myModal-2"><i
+                                class="fas fa-user-plus"></i></button></div>
+                </div>
                 <div id="cl">
 
-                    <div class="my-contacts">
+                    <!--  <div class="my-contacts">
                         <div class="row justify-content-around">
                             <div class="col-sm-4 image">
                                 <img src="/img/joker.jpg" alt="" height="100" width="200">
@@ -55,7 +59,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div>-->
 
                 </div>
             </div>
@@ -75,15 +79,21 @@
                     <li>Test</li>
                 </ul>
 
-                <!--------------------------------------CALL-LOG------------------------------------------------------>
             </div>
-            <div id="clg" class="call-log">
+            <!--------------------------------------CALL-LOG------------------------------------------------------>
+            <div class="call-log">
+                <h1>Call Logs</h1>
+                <div id="clg">
+
+                </div>
+
 
             </div>
 
-            <!---------------------------------------MODAL BOX--------------------------------------------------->
+
+            <!---------------------------------------MODAL BOX FOR MESSAGE-INPUT--------------------------------------------------->
             <div class="container">
-                <div class="modal fade message-box" id="myModal" role="dialog">
+                <div class="modal fade message-box" id="myModal-1" role="dialog">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -104,7 +114,33 @@
                     </div>
                 </div>
             </div>
-            <!---------------------------------------CALL-LOG--------------------------------------------------->
+            <!---------------------------------------MODAL BOX ADDING NEW CONTACT--------------------------------------------------->
+            <div class="container">
+                <div class="modal fade message-box" id="myModal-2" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">CONTACT DETAILS</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+                                    <label for="name">Name:</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" onclick="add_contact()" data-dismiss="modal">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
         </div>
 

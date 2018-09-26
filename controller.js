@@ -1,9 +1,10 @@
 const viewContacts = document.querySelector('.contacts');
 const viewMessage = document.querySelector('.message');
-const viewContactList = document.querySelector('.contact-list');
-const viewMessageThreads = document.querySelector('.message-threads')
-const viewIndividualThread = document.querySelector('.individual-thread')
 const viewCallLog = document.querySelector('.callLog');
+const viewContactList = document.querySelector('.contact-list');
+const viewMessageThreads = document.querySelector('.message-threads');
+const viewIndividualThread = document.querySelector('.individual-thread');
+const viewCalls = document.querySelector('.call-log');
 const goBack = document.querySelector('.back');
 let show = false;
 var triggeringElement = "";
@@ -18,7 +19,8 @@ let contactDetails = [{
         name: "tyler",
         profileImage: "/img/tyler.jpg",
         emailId: "tyler@google.com",
-        message: [] //"The things you own end up owning you!"
+        message: [], //"The things you own end up owning you!",
+        callTimings: []
     },
 
     {
@@ -26,23 +28,51 @@ let contactDetails = [{
         name: "joker",
         profileImage: "/img/joker.jpg",
         emailId: "joker@google.com",
-        message: ["Lets put a smile on that face!"]
+        message: ["Lets put a smile on that face!"],
+        callTimings: []
     },
     {
         userId: 2,
         name: "keyser",
         profileImage: "/img/keyser.jpg",
         emailId: "keyser@google.com",
-        message: ["the greatest trick the devil ever pulled was convincing the world that he didn't exist!"]
+        message: ["the greatest trick the devil ever pulled was convincing the world that he didn't exist!"],
+        callTimings: []
     },
     {
         userId: 3,
         name: "jordan",
         profileImage: "/img/jordan.jpg",
         emailId: "jordan@google.com",
-        message: ["I've got the guts to die. What I want to know is, have you got the guts to live?"]
+        message: ["I've got the guts to die. What I want to know is, have you got the guts to live?"],
+        callTimings: []
     }
 ];
+//************************************************************************************************************* */
+//***********************************************SINGLE-PAGE FUNCTIONALITY********************************************* */
+//************************************************************************************************************* */
+
+function remove_class() {
+    viewContactList.classList.remove('hide', 'show');
+    viewMessageThreads.classList.remove('hide', 'show');
+    viewIndividualThread.classList.remove('hide', 'show');
+    viewCalls.classList.remove('hide', 'show');
+}
+
+//************************************************************************************************************* */
+//***********************************************SINGLE-PAGE FUNCTIONALITY********************************************* */
+//************************************************************************************************************* */
+function get_date_time() {
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time;
+    return dateTime;
+}
+
+
+
+
 
 //************************************************************************************************************* */
 //********************************FUNCTION FOR VIEWING HOMEPAGE(CONTACT-LIST)********************************************* */
@@ -53,13 +83,12 @@ viewContacts.addEventListener('click', homepage);
 goBack.addEventListener('click', homepage);
 
 function homepage() {
-    viewContactList.classList.remove('hide', 'show');
-    viewMessageThreads.classList.remove('hide', 'show');
-    viewIndividualThread.classList.remove('hide', 'show');
+    remove_class();
     if (!show) {
         viewContactList.classList.add('show');
         viewMessageThreads.classList.add('hide');
         viewIndividualThread.classList.add('hide');
+        viewCalls.classList.add('hide');
         let contactList = "";
         contactDetails.forEach(contact => {
 
@@ -75,9 +104,9 @@ function homepage() {
     </div>
 
     <div class=" col-sm-4 action justify-content-around">
-        <button  type="button" class="btn btn-primary"><i data-userCode="${contact.userId}" class="fas fa-phone make-call"></i></button>
-        <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i data-userCode="${contact.userId}" class="fas fa-envelope send-message"></i></button>
-        <button data-userId="" type="button" class="btn btn-primary"><i data-userCode="${contact.userId}" class="far fa-trash-alt delete-contact"></i></button>
+        <button data-userCode="${contact.userId}" type="button" class="btn btn-primary make-call"><i data-userCode="${contact.userId}" class="fas fa-phone "></i></button>
+        <button data-userCode="${contact.userId}" type="button" class="btn btn-danger send-message" data-toggle="modal" data-target="#myModal-1"><i data-userCode="${contact.userId}" class="fas fa-envelope"></i></button>
+        <button data-userCode="${contact.userId}" type="button" class="btn btn-primary delete-contact"><i data-userCode="${contact.userId}" class="far fa-trash-alt"></i></button>
     </div>
 
 </div></div>`;
@@ -97,6 +126,13 @@ function homepage() {
         for (let i = 0; i < deleteContact.length; i++) {
 
             deleteContact[i].addEventListener('click', delete_contact);
+
+        }
+
+        const makeCall = document.querySelectorAll(".make-call");
+        for (let i = 0; i < makeCall.length; i++) {
+
+            makeCall[i].addEventListener('click', make_call);
 
         }
     }
@@ -127,6 +163,32 @@ function delete_contact(evt) {
     update_Div();
 
 }
+
+
+//******************************************************************************************************** */
+//*************************************FUNCTION FOR ADDING NEW CONTACT*****************************************/
+//******************************************************************************************************** */
+function add_contact() {
+
+}
+//*********************************************************************************************************** */
+//*******************************************FUNCTION FOR MAKING CALL**************************************** */
+//*********************************************************************************************************** */
+function make_call(evt) {
+    console.log("make call triggered");
+
+    contactDetails.forEach(contact => {
+        if (contact.userId == evt.target.getAttribute('data-userCode')) {
+
+            var dt = get_date_time();
+            contact.callTimings.push(dt);
+            console.log(contact.callTimings);
+
+        }
+    });
+
+}
+
 
 
 
@@ -168,13 +230,12 @@ function send() {
 viewMessage.addEventListener('click', view_Message_Threads);
 
 function view_Message_Threads() {
-    viewContactList.classList.remove('hide', 'show');
-    viewMessageThreads.classList.remove('hide', 'show');
-    viewIndividualThread.classList.remove('hide', 'show');
+    remove_class();
     if (!show) {
         viewContactList.classList.add('hide');
         viewMessageThreads.classList.add('show');
         viewIndividualThread.classList.add('hide');
+        viewCalls.classList.add('hide');
         let messageThreads = "";
         contactDetails.forEach(contact => {
             if (contact.message.length != 0) {
@@ -197,13 +258,12 @@ function view_Message_Threads() {
 
 
 function view_individual_thread(evt) {
-    viewContactList.classList.remove('hide', 'show');
-    viewMessageThreads.classList.remove('hide', 'show');
-    viewIndividualThread.classList.remove('hide', 'show');
+    remove_class();
     if (!show) {
         viewContactList.classList.add('hide');
         viewMessageThreads.classList.add('hide');
         viewIndividualThread.classList.add('show');
+        viewCalls.classList.add('hide');
         let yourMessages = "";
         console.log("level1 triggered");
         console.log(evt.target.getAttribute('data-userId'));
@@ -219,4 +279,37 @@ function view_individual_thread(evt) {
 
         $("#i-thread").html(yourMessages);
     }
+}
+
+//*********************************************************************************************************** */
+//*******************************************FUNCTION FOR VIEWING CALL-LOG**************************************** */
+//*********************************************************************************************************** */
+viewCallLog.addEventListener('click', view_call_log);
+
+function view_call_log() {
+    remove_class();
+    if (!show) {
+        console.log("calllog triggered");
+        viewContactList.classList.add('hide');
+        viewMessageThreads.classList.add('hide');
+        viewIndividualThread.classList.add('hide');
+        viewCalls.classList.add('show');
+        var yourCallLog = "";
+        var timings = "";
+        contactDetails.forEach(contact => {
+            if (contact.callTimings != null) {
+                contact.callTimings.forEach(time => {
+                    timings += `<li>${time}</li></br>`;
+                });
+                yourCallLog += `<h1>${contact.name}</h1>
+                <ul style="list-style-type: square">
+                    ${timings}
+                </ul></br>`
+                timings = "";
+            }
+
+        });
+        $("#clg").html(yourCallLog);
+    }
+
 }
