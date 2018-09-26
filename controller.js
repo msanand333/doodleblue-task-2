@@ -104,10 +104,10 @@ function send(evt) {
     console.log(evt.target.getAttribute('data-userCode'));
     var yourMessage = prompt("Please enter your message");
     if (yourMessage != null) {
-        // add message to contact object
+
         contactDetails.forEach(contact => {
             if (contact.userId == evt.target.getAttribute('data-userCode')) {
-                contact.message.splice(0, 0, yourMessage);
+                contact.message.splice(0, 0, yourMessage); // add message to contact object
 
             }
         });
