@@ -45,3 +45,7 @@
     .hide {
         display: none;
     }
+    
+    .message-box {
+        margin-top: 8rem;
+    }
