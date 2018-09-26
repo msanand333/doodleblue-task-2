@@ -1,7 +1,11 @@
 const viewContacts = document.querySelector('.contacts');
 const viewMessage = document.querySelector('.message');
+const viewContactList = document.querySelector('.contact-list');
+const viewMessageThreads = document.querySelector('.message-threads')
+const viewIndividualThread = document.querySelector('.individual-thread')
 const viewCallLog = document.querySelector('.callLog');
 const goBack = document.querySelector('.back');
+let show = false;
 
 
 let contactDetails = [{
@@ -34,30 +38,29 @@ let contactDetails = [{
         message: ["I've got the guts to die. What I want to know is, have you got the guts to live?"]
     }
 ];
-//<button data-userId="" type="button" class="btn btn-primary">View</button>
-//class="d-flex justify-content-around"
 
+//************************************************************************************************************* */
+//********************************FUNCTION FOR VIEWING HOMEPAGE********************************************* */
+//************************************************************************************************************* */
 
-
-
-
-
-
-
-//********************************FUNCTION FOR VIEWING CONTACTLIST********************************************* */
-//window.onload(view_Contacts);
 $(document).ready(homepage);
-//viewContacts.addEventListener('click', view_Contacts);
-//goBack.addEventListener('click', view_Contacts);
-//window.addEventListener('load', view_contacts);
+viewContacts.addEventListener('click', homepage);
+goBack.addEventListener('click', homepage);
 
 function homepage() {
-    let contactList = "";
-    contactDetails.forEach(contact => {
+    viewContactList.classList.remove('hide', 'show');
+    viewMessageThreads.classList.remove('hide', 'show');
+    viewIndividualThread.classList.remove('hide', 'show');
+    if (!show) {
+        viewContactList.classList.add('show');
+        viewMessageThreads.classList.add('hide');
+        viewIndividualThread.classList.add('hide');
+        let contactList = "";
+        contactDetails.forEach(contact => {
 
-        contactList += `<div class="my-contacts"> <div class="row justify-content-around">
+            contactList += `<div class="my-contacts"> <div class="row justify-content-around">
     <div class="col-sm-4 image">
-        <img src="${contact.profileImage}" alt="" height="100" width="200">
+        <img class="img-fluid" src="${contact.profileImage}" alt="" height="100" width="200">
 
     </div>
 
@@ -67,110 +70,117 @@ function homepage() {
     </div>
 
     <div class=" col-sm-4 action justify-content-around">
-        <button data-userId="${contact.userId}" type="button" class="btn btn-primary"><i class="fas fa-phone call"></i></button>
-        <button data-userId="${contact.userId}" type="button" class="btn btn-danger"><i class="fas fa-envelope send-message"></i></button>
+        <button  type="button" class="btn btn-primary"><i data-userCode="${contact.userId}" class="fas fa-phone call"></i></button>
+        <button  type="button" class="btn btn-danger"><i data-userCode="${contact.userId}" class="fas fa-envelope send-message"></i></button>
     </div>
 
 </div></div>`;
 
-    });
+        });
 
-    $("#cl").append(contactList);
+        $("#cl").html(contactList);
 
-    //var conta = document.getElementById('cl');
-    //conta.appendChild(contactList);
-    /* var node = document.createElement("div"); // 
-     var textnode = document.createTextNode(contactList); // 
-     node.appendChild(textnode); // Append the text to <li>
-     document.getElementById("cl").appendChild(node);*/
+        const sendMessage = document.querySelectorAll(".send-message");
+        for (let i = 0; i < sendMessage.length; i++) {
+
+            sendMessage[i].addEventListener('click', send);
+
+        }
+    }
+
+
+
+}
+//******************************************************************************************************** */
+//*************************************FUNCTION FOR SENDING MESSAGE*****************************************/
+//******************************************************************************************************** */
+
+
+function send(evt) {
+
+
+    console.log("hello world");
+    console.log(evt.target.getAttribute('data-userCode'));
+    console.log(evt.target.getAttribute('data-userCode'));
+    var yourMessage = prompt("Please enter your message");
+    if (yourMessage != null) {
+        // add message to contact object
+        contactDetails.forEach(contact => {
+            if (contact.userId == evt.target.getAttribute('data-userCode')) {
+                contact.message.splice(0, 0, yourMessage);
+
+            }
+        });
+    }
+    console.log(contactDetails);
 
 }
 
 
 
-//***********************FUNCTION FOR VIEWING MESSAGE ********************************************************/
 
 
-viewContacts.addEventListener('click', view_Contacts);
 
 
-function view_Contacts() {
-    let contactView = "";
-    contactDetails.forEach(contact => {
+//************************************************************************************************** */
+//*************************FUNCTION FOR VIEWING MESSAGE THREADs******************************* *********/
+//**************************************************************************************************** */
 
-        contactView += `<div><div class="row justify-content-around">
-    <div class="col-sm-4 image">
-        <img src="${contact.profileImage}" alt="" height="100" width="200">
-
-    </div>
-
-    <div class=" col-sm-4 contact-details">
-        <h4>${contact.name}</h4>
-        <h6>${contact.emailId}</h6>
-    </div>
-
-    <div class=" col-sm-4 action justify-content-around">
-        <button data-userId="${contact.userId}" type="button" class="btn btn-primary"><i class="fas fa-phone call"></i></button>
-        <button data-userId="${contact.userId}" type="button" class="btn btn-danger"><i class="fas fa-envelope send-message"></i></button>
-    </div>
-
-</div>`;
-
-    });
-
-    $("#cl").html(contactView);
-
-    //var conta = document.getElementById('cl');
-    //conta.appendChild(contactList);
-    /* var node = document.createElement("div"); // 
-     var textnode = document.createTextNode(contactList); // 
-     node.appendChild(textnode); // Append the text to <li>
-     document.getElementById("cl").appendChild(node);*/
-
-
-}
-
-
-//*************************FUNCTION FOR VIEWING MESSAGE THREADs******************************* */
 
 viewMessage.addEventListener('click', view_Message_Threads);
 
 function view_Message_Threads() {
-    let messageThreads = "";
-    contactDetails.forEach(contact => {
-        if (contact.message.length != 0) {
-            messageThreads += `<li>${contact.name}<span>&emsp;&emsp;<button data-userId="${contact.userId}" type="button" class="btn btn-primary thread" >View</button></span></li></br>`;
+    viewContactList.classList.remove('hide', 'show');
+    viewMessageThreads.classList.remove('hide', 'show');
+    viewIndividualThread.classList.remove('hide', 'show');
+    if (!show) {
+        viewContactList.classList.add('hide');
+        viewMessageThreads.classList.add('show');
+        viewIndividualThread.classList.add('hide');
+        let messageThreads = "";
+        contactDetails.forEach(contact => {
+            if (contact.message.length != 0) {
+                messageThreads += `<li>${contact.name}<span>&emsp;&emsp;<button data-userId="${contact.userId}" type="button" class="btn btn-primary thread" >View</button></span></li></br>`;
+            }
+        });
+        $("#threads").html(messageThreads);
+        const selectedThread = document.querySelectorAll(".thread");
+        for (let i = 0; i < selectedThread.length; i++) {
+
+            selectedThread[i].addEventListener('click', view_individual_thread);
+
         }
-    });
-    $("#threads").html(messageThreads);
-    const selectedThread = document.querySelectorAll(".thread");
-    for (let i = 0; i < selectedThread.length; i++) {
-
-        selectedThread[i].addEventListener('click', view_individual_thread);
-
     }
-}
+
+    //*********************************************************************************************************** */
+    //*************************FUNCTION FOR VIEWING INDIVIDUAL MESSAGE THREAD******************************* */
+    //******************************************************************************************************* */
 
 
-//*************************FUNCTION FOR VIEWING INDIVIDUAL MESSAGE THREAD******************************* */
+    function view_individual_thread(evt) {
+        viewContactList.classList.remove('hide', 'show');
+        viewMessageThreads.classList.remove('hide', 'show');
+        viewIndividualThread.classList.remove('hide', 'show');
+        if (!show) {
+            viewContactList.classList.add('hide');
+            viewMessageThreads.classList.add('hide');
+            viewIndividualThread.classList.add('show');
+            let yourMessages = "";
+            console.log("level1 triggered");
+            console.log(evt.target.getAttribute('data-userId'));
 
-//let chicken = true;
+            contactDetails.forEach(contact => {
+                if (contact.userId == evt.target.getAttribute('data-userId')) {
+                    contact.message.forEach(message => {
+                        yourMessages += `<li>${message}</li></br>`;
+                    });
 
-function view_individual_thread(evt) {
-    let yourMessages = "";
-    console.log("level1 triggered");
-    console.log(evt.target.getAttribute('data-userId'));
-
-    contactDetails.forEach(contact => {
-        if (contact.userId == evt.target.getAttribute('data-userId')) {
-            contact.message.forEach(message => {
-                yourMessages += `<li>${message}</li></br>`;
+                }
             });
 
+            $("#i-thread").html(yourMessages);
         }
-    });
+    }
 
-    $("#i-thread").html(yourMessages);
 
-    //selectedThread.dataset.userId
 }

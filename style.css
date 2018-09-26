@@ -26,3 +26,22 @@
         margin-bottom: 1rem;
         /* padding-bottom: 1rem;*/
     }
+    /*  .contact-list {
+        position: absolute;
+    }
+    
+    .message-threads {
+        position: absolute;
+    }
+    
+    .individual-threads {
+        position: absolute;
+    }*/
+    
+    .show {
+        display: block;
+    }
+    
+    .hide {
+        display: none;
+    }
