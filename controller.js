@@ -82,10 +82,12 @@ function get_date_time() {
 //************************************************************************************************************* */
 
 $(document).ready(homepage);
+$(document).ready(function() { $("#first").hide(); });
 viewContacts.addEventListener('click', homepage);
 goBack.addEventListener('click', homepage);
 
 function homepage() {
+
     remove_class();
     if (!show) {
         viewContactList.classList.add('show');
@@ -110,6 +112,7 @@ function homepage() {
         <button data-userCode="${contact.userId}" type="button" class="btn btn-primary make-call"><i data-userCode="${contact.userId}" class="fas fa-phone "></i></button>
         <button data-userCode="${contact.userId}" type="button" class="btn btn-danger send-message" data-toggle="modal" data-target="#myModal-1"><i data-userCode="${contact.userId}" class="fas fa-envelope"></i></button>
         <button data-userCode="${contact.userId}" type="button" class="btn btn-primary delete-contact"><i data-userCode="${contact.userId}" class="far fa-trash-alt"></i></button>
+        <button data-userCode="${contact.userId}" type="button" class="btn btn-danger edit-contact" data-toggle="modal" data-target="#myModal-3"><i data-userCode="${contact.userId}" class="fas fa-user-edit"></i></button>
     </div>
 
 </div></div>`;
@@ -138,6 +141,14 @@ function homepage() {
             makeCall[i].addEventListener('click', make_call);
 
         }
+
+        const editContact = document.querySelectorAll(".make-call");
+        for (let i = 0; i < makeCall.length; i++) {
+
+            makeCall[i].addEventListener('click', make_call);
+
+        }
+
     }
 
 
@@ -211,6 +222,36 @@ function add_contact() {
     img = "";
 
 }
+
+//*********************************************************************************************************** */
+//*******************************************FUNCTION FOR EDITING CONTACT**************************************** */
+//*********************************************************************************************************** */
+
+
+function edit_contact() {
+    var name = $("#name").val();
+    var email = $("#email").val();
+    var image = img;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //*********************************************************************************************************** */
 //*******************************************FUNCTION FOR MAKING CALL**************************************** */
 //*********************************************************************************************************** */
@@ -234,6 +275,7 @@ function make_call(evt) {
             // var cl = `<li>${contact.name}(${contact.callTimings.length}) ${contact.callTimings[contact.callTimings.length-1].time}</li>`;
             console.log(cl);
             if (evt.target.getAttribute('data-userCode') == order) {
+                $("#first").show();
                 count++;
                 var cl = `<li>${contact.name}(${count}) ${contact.callTimings[contact.callTimings.length-1].time}</li>`;
                 $("#clg>li:first").html(cl);
@@ -365,24 +407,24 @@ function view_call_log() {
         viewMessageThreads.classList.add('hide');
         viewIndividualThread.classList.add('hide');
         viewCalls.classList.add('show');
-        var yourCallLog_greater = "";
-        var yourCallLog_smaller = "";
-        var final = "";
-        var timings = "";
-        var compareTime = "00:00:00";
-        contactDetails.forEach(contact => {
-            if (contact.callTimings.length > 0) {
-                if (contact.callTimings[contact.callTimings.length - 1].time >= compareTime) {
-                    yourCallLog_greater = `<li>${contact.name}(${contact.callTimings.length+1})</li></br>`;
-                    compareTime = contact.callTimings[contact.callTimings.length - 1].time;
-                } else {
-                    yourCallLog_smaller = `<li>${contact.name}(${contact.callTimings.length+1})</li></br>`;
+        /* var yourCallLog_greater = "";
+         var yourCallLog_smaller = "";
+         var final = "";
+         var timings = "";
+         var compareTime = "00:00:00";
+         contactDetails.forEach(contact => {
+             if (contact.callTimings.length > 0) {
+                 if (contact.callTimings[contact.callTimings.length - 1].time >= compareTime) {
+                     yourCallLog_greater = `<li>${contact.name}(${contact.callTimings.length+1})</li></br>`;
+                     compareTime = contact.callTimings[contact.callTimings.length - 1].time;
+                 } else {
+                     yourCallLog_smaller = `<li>${contact.name}(${contact.callTimings.length+1})</li></br>`;
 
-                }
+                 }
 
-            }
+             }
 
-        });
+         });*/
         // $("#clg").html(yourCallLog);
     }
 
