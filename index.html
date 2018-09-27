@@ -83,9 +83,10 @@
             <!--------------------------------------CALL-LOG------------------------------------------------------>
             <div class="call-log">
                 <h1>Call Logs</h1>
-                <div id="clg">
+                <ul id="clg">
+                    <li class="first"></li>
 
-                </div>
+                </ul>
 
 
             </div>
@@ -128,8 +129,10 @@
                                 <div class="form-group">
                                     <label for="name">Name:</label>
                                     <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
-                                    <label for="name">Name:</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+                                    <label for="email">Email:</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Email" name="email">
+                                    <label for="image">Upload Profile-picture:</label>
+                                    <input id="fileinput" type="file" accept="image/gif, image/jpeg, image/png" onchange="readURL(this);">
                                 </div>
                             </div>
                             <div class="modal-footer">

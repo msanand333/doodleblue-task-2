@@ -67,7 +67,10 @@ function get_date_time() {
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
-    return dateTime;
+    return {
+        date: date,
+        time: time
+    };
 }
 
 
@@ -94,7 +97,7 @@ function homepage() {
 
             contactList += `<div class="my-contacts"> <div class="row justify-content-around">
     <div class="col-sm-4 image">
-        <img class="img-fluid" src="${contact.profileImage}" alt="" height="100" width="200">
+        <img src="${contact.profileImage}" alt="" height="100" width="200">
 
     </div>
 
@@ -163,29 +166,97 @@ function delete_contact(evt) {
     update_Div();
 
 }
+//******************************************************************************************************** */
+//*************************************IMAGE-BASE64 CONVERTER*****************************************/
+//******************************************************************************************************** */
+var img = "";
 
+function readURL(input) {
+    console.log("readURL triggered");
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#falseinput').attr('src', e.target.result);
+            img = e.target.result;
+            console.log(`${img}`);
 
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 //******************************************************************************************************** */
 //*************************************FUNCTION FOR ADDING NEW CONTACT*****************************************/
 //******************************************************************************************************** */
+
 function add_contact() {
+    var name = $("#name").val();
+    var email = $("#email").val();
+    var image = img;
+    var uid = contactDetails[contactDetails.length - 1].userId + 1;
+    //var msg=[];
+    //var time=[];
+    var newContact = {
+        userId: uid,
+        name: name,
+        profileImage: image,
+        emailId: email,
+        message: [], //"The things you own end up owning you!",
+        callTimings: []
+    }
+    contactDetails.push(newContact);
+    console.log(contactDetails);
+    homepage();
+    $("#name").val("");
+    $("#email").val("");
+    img = "";
 
 }
 //*********************************************************************************************************** */
 //*******************************************FUNCTION FOR MAKING CALL**************************************** */
 //*********************************************************************************************************** */
+
+var order = 0;
+var count = 0;
+
 function make_call(evt) {
     console.log("make call triggered");
+
 
     contactDetails.forEach(contact => {
         if (contact.userId == evt.target.getAttribute('data-userCode')) {
 
-            var dt = get_date_time();
+            var dt = {
+                date: get_date_time().date,
+                time: get_date_time().time
+            };
             contact.callTimings.push(dt);
             console.log(contact.callTimings);
+            // var cl = `<li>${contact.name}(${contact.callTimings.length}) ${contact.callTimings[contact.callTimings.length-1].time}</li>`;
+            console.log(cl);
+            if (evt.target.getAttribute('data-userCode') == order) {
+                count++;
+                var cl = `<li>${contact.name}(${count}) ${contact.callTimings[contact.callTimings.length-1].time}</li>`;
+                $("#clg>li:first").html(cl);
+                console.log(cl);
+                //$("#clg").prepend(cl);
+            } else {
+                count = 1;
+                // $("#first").hide();
+                var cl = `<li>${contact.name}(1) ${contact.callTimings[contact.callTimings.length-1].time}</li>`;
+                $("#clg").prepend(cl);
+                order = evt.target.getAttribute('data-userCode');
+                console.log(cl);
+            }
+
+
+            console.log(order);
 
         }
+
     });
+
+
+
 
 }
 
@@ -264,20 +335,20 @@ function view_individual_thread(evt) {
         viewMessageThreads.classList.add('hide');
         viewIndividualThread.classList.add('show');
         viewCalls.classList.add('hide');
-        let yourMessages = "";
-        console.log("level1 triggered");
-        console.log(evt.target.getAttribute('data-userId'));
+        /* let yourMessages = "";
+         console.log("level1 triggered");
+         console.log(evt.target.getAttribute('data-userId'));
 
-        contactDetails.forEach(contact => {
-            if (contact.userId == evt.target.getAttribute('data-userId')) {
-                contact.message.forEach(message => {
-                    yourMessages += `<li>${message}</li></br>`;
-                });
+         contactDetails.forEach(contact => {
+             if (contact.userId == evt.target.getAttribute('data-userId')) {
+                 contact.message.forEach(message => {
+                     yourMessages += `<li>${message}</li></br>`;
+                 });
 
-            }
-        });
+             }
+         });
 
-        $("#i-thread").html(yourMessages);
+         $("#i-thread").html(yourMessages);*/
     }
 }
 
@@ -294,22 +365,25 @@ function view_call_log() {
         viewMessageThreads.classList.add('hide');
         viewIndividualThread.classList.add('hide');
         viewCalls.classList.add('show');
-        var yourCallLog = "";
+        var yourCallLog_greater = "";
+        var yourCallLog_smaller = "";
+        var final = "";
         var timings = "";
+        var compareTime = "00:00:00";
         contactDetails.forEach(contact => {
-            if (contact.callTimings != null) {
-                contact.callTimings.forEach(time => {
-                    timings += `<li>${time}</li></br>`;
-                });
-                yourCallLog += `<h1>${contact.name}</h1>
-                <ul style="list-style-type: square">
-                    ${timings}
-                </ul></br>`
-                timings = "";
+            if (contact.callTimings.length > 0) {
+                if (contact.callTimings[contact.callTimings.length - 1].time >= compareTime) {
+                    yourCallLog_greater = `<li>${contact.name}(${contact.callTimings.length+1})</li></br>`;
+                    compareTime = contact.callTimings[contact.callTimings.length - 1].time;
+                } else {
+                    yourCallLog_smaller = `<li>${contact.name}(${contact.callTimings.length+1})</li></br>`;
+
+                }
+
             }
 
         });
-        $("#clg").html(yourCallLog);
+        // $("#clg").html(yourCallLog);
     }
 
 }
