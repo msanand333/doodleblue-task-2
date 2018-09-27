@@ -1,32 +1,37 @@
-    .phone {
-        /*border: 2px solid gray;*/
-        /*text-align: center;*/
-        margin: auto;
-    }
-    
-    header {
-        height: 5rem;
-        background-color: lightgray;
-    }
-    
-    .control-icons {
-        height: 4rem;
-    }
-    
-    .control-icon {
-        height: 3rem;
-        padding-top: 2rem;
-    }
-    
-    .content {
-        position: relative;
-    }
-    
-    .my-contacts {
-        margin-bottom: 1rem;
-        /* padding-bottom: 1rem;*/
-    }
-    /*  .contact-list {
+   body {
+       font-family: 'Montserrat', sans-serif;
+       color: black;
+   }
+   
+   .phone {
+       /*border: 2px solid gray;*/
+       /*text-align: center;*/
+       margin: auto;
+   }
+   
+   header {
+       height: 5rem;
+       background-color: lightskyblue;
+   }
+   
+   .control-icons {
+       height: 4rem;
+   }
+   
+   .control-icon {
+       height: 3rem;
+       padding-top: 2rem;
+   }
+   
+   .content {
+       position: relative;
+   }
+   
+   .my-contacts {
+       margin-bottom: 1rem;
+       /* padding-bottom: 1rem;*/
+   }
+   /*  .contact-list {
         position: absolute;
     }
     
@@ -37,19 +42,78 @@
     .individual-threads {
         position: absolute;
     }*/
-    
-    .show {
-        display: block;
-    }
-    
-    .hide {
-        display: none;
-    }
-    
-    .message-box {
-        margin-top: 8rem;
-    }
-    
-    .plus {
-        margin-top: 0.8rem;
-    }
+   
+   .show {
+       display: block;
+   }
+   
+   .hide {
+       display: none;
+   }
+   
+   .message-box {
+       margin-top: 8rem;
+   }
+   
+   .add-box,
+   .edit-box {
+       margin-top: 5rem;
+   }
+   
+   .plus {
+       margin-top: 0.8rem;
+   }
+   
+   .heading {
+       height: 4rem;
+   }
+   
+   .add {
+       margin-top: 0.6rem;
+   }
+   
+   .control-icons>i {
+       color: white
+   }
+   
+   .control-icons>i:hover {
+       color: darkblue
+   }
+   
+   .back:hover {
+       color: white;
+   }
+   
+   #threads {
+       margin-top: 2rem;
+   }
+   
+   #i-thread {
+       margin-top: 2rem;
+   }
+   
+   .vmt {
+       border-bottom: 1px solid rgb(156, 167, 182);
+       padding-bottom: 0.5rem;
+   }
+   
+   .vit {
+       border-bottom: 1px solid rgb(156, 167, 182);
+       padding-bottom: 0.5rem;
+   }
+   
+   .clg {
+       margin-top: 2rem;
+   }
+   
+   .first {
+       border-bottom: 1px solid rgb(156, 167, 182);
+       padding-bottom: 0.5rem;
+       padding-top: 0.5rem;
+   }
+   
+   #first {
+       border-bottom: 1px solid rgb(156, 167, 182);
+       padding-bottom: 0.5rem;
+       padding-top: 0.5rem;
+   }

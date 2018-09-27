@@ -82,7 +82,9 @@ function get_date_time() {
 //************************************************************************************************************* */
 
 $(document).ready(homepage);
-$(document).ready(function() { $("#first").hide(); });
+$(document).ready(function() {
+    $("#first").hide();
+});
 viewContacts.addEventListener('click', homepage);
 goBack.addEventListener('click', homepage);
 
@@ -98,21 +100,21 @@ function homepage() {
         contactDetails.forEach(contact => {
 
             contactList += `<div class="my-contacts"> <div class="row justify-content-around">
-    <div class="col-sm-4 image">
-        <img src="${contact.profileImage}" alt="" height="100" width="200">
+    <div class="col-xs-2 image">
+        <img class="rounded-circle" src="${contact.profileImage}" alt="" height="50" width="50">
 
     </div>
 
-    <div class=" col-sm-4 contact-details">
-        <h4>${contact.name}</h4>
-        <h6>${contact.emailId}</h6>
+    <div class=" col-xs-2 contact-details">
+        <h6>${contact.name}</h6>
+        <h6 style="font-size:0.7rem">${contact.emailId}</h6>
     </div>
 
-    <div class=" col-sm-4 action justify-content-around">
-        <button data-userCode="${contact.userId}" type="button" class="btn btn-primary make-call"><i data-userCode="${contact.userId}" class="fas fa-phone "></i></button>
-        <button data-userCode="${contact.userId}" type="button" class="btn btn-danger send-message" data-toggle="modal" data-target="#myModal-1"><i data-userCode="${contact.userId}" class="fas fa-envelope"></i></button>
-        <button data-userCode="${contact.userId}" type="button" class="btn btn-primary delete-contact"><i data-userCode="${contact.userId}" class="far fa-trash-alt"></i></button>
-        <button data-userCode="${contact.userId}" type="button" class="btn btn-danger edit-contact" data-toggle="modal" data-target="#myModal-3"><i data-userCode="${contact.userId}" class="fas fa-user-edit"></i></button>
+    <div class=" col-xs-8 action justify-content-around">
+        <button data-userCode="${contact.userId}" type="button" class="btn btn-primary btn-sm make-call"><i data-userCode="${contact.userId}" class="fas fa-phone"></i></button>
+        <button data-userCode="${contact.userId}" type="button" class="btn btn-danger btn-sm send-message" data-toggle="modal" data-target="#myModal-1"><i data-userCode="${contact.userId}" class="fas fa-envelope"></i></button>
+        <button data-userCode="${contact.userId}" type="button" class="btn btn-primary btn-sm delete-contact"><i data-userCode="${contact.userId}" class="far fa-trash-alt"></i></button>
+        <button data-userCode="${contact.userId}" type="button" class="btn btn-danger btn-sm edit-contact" data-toggle="modal" data-target="#myModal-3"><i data-userCode="${contact.userId}" class="fas fa-user-edit"></i></button>
     </div>
 
 </div></div>`;
@@ -142,10 +144,10 @@ function homepage() {
 
         }
 
-        const editContact = document.querySelectorAll(".make-call");
-        for (let i = 0; i < makeCall.length; i++) {
+        const editContact = document.querySelectorAll(".edit-contact");
+        for (let i = 0; i < editContact.length; i++) {
 
-            makeCall[i].addEventListener('click', make_call);
+            editContact[i].addEventListener('click', edit_box);
 
         }
 
@@ -226,28 +228,37 @@ function add_contact() {
 //*********************************************************************************************************** */
 //*******************************************FUNCTION FOR EDITING CONTACT**************************************** */
 //*********************************************************************************************************** */
-
-
-function edit_contact() {
-    var name = $("#name").val();
-    var email = $("#email").val();
-    var image = img;
-
-
-
+function edit_box(evt) {
+    triggeringElement = evt.target.getAttribute('data-userCode');
 }
 
+function edit_contact() {
+    var newName = $("#new-name").val();
+    var newEmail = $("#new-email").val();
+    var newImage = img;
+    contactDetails.forEach(contact => {
+        if (contact.userId == triggeringElement) {
+            if (newName != "") {
+                contact.name = newName;
+            }
+            if (newEmail != "") {
+                contact.emailId = newEmail;
+            }
+            if (newImage != "") {
+                contact.profileImage = newImage;
+            }
 
 
 
 
+        }
+    });
+    $("#new-name").val("");
+    $("#new-email").val("");
+    img = "";
+    update_Div();
 
-
-
-
-
-
-
+}
 
 
 
@@ -277,14 +288,15 @@ function make_call(evt) {
             if (evt.target.getAttribute('data-userCode') == order) {
                 $("#first").show();
                 count++;
-                var cl = `<li>${contact.name}(${count}) ${contact.callTimings[contact.callTimings.length-1].time}</li>`;
-                $("#clg>li:first").html(cl);
+                var cl = `<div class="col-xs-9">${contact.name}(${count})</div><div class="col-xs-3">${contact.callTimings[contact.callTimings.length-1].time}</div>`;
+                $("#clg>div:first").html(cl);
+                //$("#clg").prepend(cl);
                 console.log(cl);
                 //$("#clg").prepend(cl);
             } else {
                 count = 1;
                 // $("#first").hide();
-                var cl = `<li>${contact.name}(1) ${contact.callTimings[contact.callTimings.length-1].time}</li>`;
+                var cl = `<div class="row justify-content-between first"><div class="col-xs-9">${contact.name}(1)</div><div class="col-xs-3">${contact.callTimings[contact.callTimings.length-1].time}</div></div>`;
                 $("#clg").prepend(cl);
                 order = evt.target.getAttribute('data-userCode');
                 console.log(cl);
@@ -352,7 +364,7 @@ function view_Message_Threads() {
         let messageThreads = "";
         contactDetails.forEach(contact => {
             if (contact.message.length != 0) {
-                messageThreads += `<li>${contact.name}<span>&emsp;&emsp;<button data-userId="${contact.userId}" type="button" class="btn btn-primary thread" >View</button></span></li></br>`;
+                messageThreads += `<div class="d-flex justify-content-around vmt">${contact.name}<button data-userId="${contact.userId}" type="button" class="btn btn-primary thread" >View</button></div></br>`;
             }
         });
         $("#threads").html(messageThreads);
@@ -377,20 +389,20 @@ function view_individual_thread(evt) {
         viewMessageThreads.classList.add('hide');
         viewIndividualThread.classList.add('show');
         viewCalls.classList.add('hide');
-        /* let yourMessages = "";
-         console.log("level1 triggered");
-         console.log(evt.target.getAttribute('data-userId'));
+        let yourMessages = "";
+        console.log("level1 triggered");
+        console.log(evt.target.getAttribute('data-userId'));
 
-         contactDetails.forEach(contact => {
-             if (contact.userId == evt.target.getAttribute('data-userId')) {
-                 contact.message.forEach(message => {
-                     yourMessages += `<li>${message}</li></br>`;
-                 });
+        contactDetails.forEach(contact => {
+            if (contact.userId == evt.target.getAttribute('data-userId')) {
+                contact.message.forEach(message => {
+                    yourMessages += `<div class="vit">${message}</div></br>`;
+                });
 
-             }
-         });
+            }
+        });
 
-         $("#i-thread").html(yourMessages);*/
+        $("#i-thread").html(yourMessages);
     }
 }
 
@@ -407,25 +419,7 @@ function view_call_log() {
         viewMessageThreads.classList.add('hide');
         viewIndividualThread.classList.add('hide');
         viewCalls.classList.add('show');
-        /* var yourCallLog_greater = "";
-         var yourCallLog_smaller = "";
-         var final = "";
-         var timings = "";
-         var compareTime = "00:00:00";
-         contactDetails.forEach(contact => {
-             if (contact.callTimings.length > 0) {
-                 if (contact.callTimings[contact.callTimings.length - 1].time >= compareTime) {
-                     yourCallLog_greater = `<li>${contact.name}(${contact.callTimings.length+1})</li></br>`;
-                     compareTime = contact.callTimings[contact.callTimings.length - 1].time;
-                 } else {
-                     yourCallLog_smaller = `<li>${contact.name}(${contact.callTimings.length+1})</li></br>`;
 
-                 }
-
-             }
-
-         });*/
-        // $("#clg").html(yourCallLog);
     }
 
 }
